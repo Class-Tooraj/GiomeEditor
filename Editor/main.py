@@ -110,22 +110,31 @@ class MainWindow(Baseclass, UI_MainWindow):
 
     def actionNew(self):
         # action ShortCut Ctrl + N
-        self.stackedWidget.setCurrentWidget(self.page_new)
+        self.actionSave()
+        self.textEdit.clear()
         self.SIGNAL_STATUS.emit(eFunc.talk("New"))               # Signal Status
     
     def actionOpen(self):
-        self.stackedWidget.setCurrentWidget(self.page_open)
+        # action ShortCut Ctrl + O
         _formats = eFunc.fileFormat()
         file_name = QFileDialog.getOpenFileName(filter=_formats)
         if file_name != ('', ''):
             self.SIGNAL_STATUS.emit(eFunc.talk("Open", "True"))  # Signal Status
+            self.actionNew()
+
+            with open(file_name[0], 'rb') as f_op:
+                reader = f_op.read()
+            reader = reader.decode("utf-8")
+            
+            self.textEdit.setText(reader)
             self.PATH.emit(eFunc.talk(*file_name))
+            del reader
+        
         else:
             self.SIGNAL_STATUS.emit(eFunc.talk("Open", "False")) # Signal Status
     
     def actionSaveAs(self):
         # action ShortCut Ctrl + Shift + S
-        self.stackedWidget.setCurrentWidget(self.page_save_as)
         _formats = eFunc.fileFormat()
         file_name = QFileDialog.getSaveFileName(filter=_formats)
         if file_name != ('', ''):
