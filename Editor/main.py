@@ -23,8 +23,9 @@ UI_MainWindow, Baseclass = loadUiType(os.path.join(os.path.dirname(__file__), "w
 print(f"{UI_MainWindow= }\n{Baseclass= }")
 
 class MainWindow(Baseclass, UI_MainWindow):
-    PATH = QtCore.Signal(tuple)      # (FilePath, FileFormat)
+    SIGNAL_PATH = QtCore.Signal(tuple)        # (FilePath, FileFormat)
     SIGNAL_STATUS = QtCore.Signal(tuple)      # (ActionName, *other)
+    WORKING_FILE = None
 
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
@@ -61,7 +62,7 @@ class MainWindow(Baseclass, UI_MainWindow):
         self.btn_setting.clicked.connect(self.actionSetting)
 
         # SIGNAL CONNECT
-        self.PATH.connect(lambda x: print(x, file=sys.stdout))
+        self.SIGNAL_PATH.connect(lambda x: print(x, file=sys.stdout))
         self.SIGNAL_STATUS.connect(lambda x: print(x, file=sys.stdout))
 
         ## SHOW ==> MAIN WINDOW >> Show in Start app ui
@@ -127,7 +128,8 @@ class MainWindow(Baseclass, UI_MainWindow):
             reader = reader.decode("utf-8")
             
             self.textEdit.setText(reader)
-            self.PATH.emit(eFunc.talk(*file_name))
+            self.SIGNAL_PATH.emit(eFunc.talk(*file_name))
+            self.WORKING_FILE = file_name[0]
             del reader
         
         else:
@@ -138,10 +140,18 @@ class MainWindow(Baseclass, UI_MainWindow):
         _formats = eFunc.fileFormat()
         file_name = QFileDialog.getSaveFileName(filter=_formats)
         if file_name != ('', ''):
-            self.SIGNAL_STATUS.emit(eFunc.talk("SaveAs", "True"))   # Signal Status
-            self.PATH.emit(eFunc.talk(*file_name))
+            self.SIGNAL_PATH.emit(eFunc.talk(*file_name))
+                
+            with open(file_name[0], 'wb') as fs:
+                txt = self.textEdit.toPlainText().encode('utf-8')
+                counter = fs.write(txt)
+            fs.close
+            self.SIGNAL_STATUS.emit(eFunc.talk("SaveAs", f"{counter}", f"{self.WORKING_FILE}"))   # Signal Status
+            self.WORKING_FILE = file_name[0]
+            del txt, counter
+            
         else:
-            self.SIGNAL_STATUS.emit(eFunc.talk("SaveAs", "False"))  # Signal Status
+            self.SIGNAL_STATUS.emit(eFunc.talk("SaveAs", "False", "None"))  # Signal Status
     
     def actionSetting(self):
         # action ShortCut None
@@ -155,7 +165,14 @@ class MainWindow(Baseclass, UI_MainWindow):
     
     def actionSave(self):
         # action ShortCut Ctrl + S
-        self.SIGNAL_STATUS.emit(eFunc.talk("Save"))                # Signal Status
+        if self.WORKING_FILE is None:
+            self.actionSaveAs()
+        else:
+            with open(self.WORKING_FILE, 'wb') as fs:
+                txt = self.textEdit.toPlainText().encode('utf-8')
+                counter = fs.write(txt)
+            fs.close
+            self.SIGNAL_STATUS.emit(eFunc.talk("Save", f"{counter}", f"{self.WORKING_FILE}"))    # Signal Status
 
     def actionCopy(self):
         # action ShortCut Ctrl + C
