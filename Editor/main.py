@@ -11,19 +11,32 @@ import sys
 import os
 
 from PySide6 import QtCore
-from PySide6.QtCore import QPropertyAnimation
+from PySide6.QtGui import QTextDocument
+from PySide6.QtWidgets import QApplication, QFileDialog
 from PySide6.QtUiTools import loadUiType
-from PySide6.QtWidgets import *
 
+# IMPORT FUNCTION
+import eFunc
 
 # IMPORT UI FILE
 UI_MainWindow, Baseclass = loadUiType(os.path.join(os.path.dirname(__file__), "widget_ui/ui_main.ui"))
 print(f"{UI_MainWindow= }\n{Baseclass= }")
 
 class MainWindow(Baseclass, UI_MainWindow):
+    PATH = QtCore.Signal(tuple)      # (FilePath, FileFormat)
+    SIGNAL_STATUS = QtCore.Signal(tuple)      # (ActionName, *other)
+
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
+        ## ACTIONS BTN CONNECT
+        ########################################################################
+        self.btn_save.clicked.connect(self.actionSave)
+        self.btn_copy.clicked.connect(self.actionCopy)
+        self.btn_cut.clicked.connect(self.actionCut)
+        self.btn_undo.clicked.connect(self.actionUndo)
+        self.btn_redo.clicked.connect(self.actionRedo)
+        self.btn_find.clicked.connect(self.actionFind)
 
         ## TOGGLE/BURGUER MENU
         ########################################################################
@@ -46,6 +59,10 @@ class MainWindow(Baseclass, UI_MainWindow):
 
         # PAGE SETTING
         self.btn_setting.clicked.connect(self.actionSetting)
+
+        # SIGNAL CONNECT
+        self.PATH.connect(lambda x: print(x, file=sys.stdout))
+        self.SIGNAL_STATUS.connect(lambda x: print(x, file=sys.stdout))
 
         ## SHOW ==> MAIN WINDOW >> Show in Start app ui
         ########################################################################
@@ -84,7 +101,7 @@ class MainWindow(Baseclass, UI_MainWindow):
                 
 
             # ANIMATION
-            self.animation = QPropertyAnimation(self.frame_left_menu, b"minimumWidth")
+            self.animation = QtCore.QPropertyAnimation(self.frame_left_menu, b"minimumWidth")
             self.animation.setDuration(400)
             self.animation.setStartValue(width)
             self.animation.setEndValue(widthExtended)
@@ -94,25 +111,71 @@ class MainWindow(Baseclass, UI_MainWindow):
     def actionNew(self):
         # action ShortCut Ctrl + N
         self.stackedWidget.setCurrentWidget(self.page_new)
+        self.SIGNAL_STATUS.emit(eFunc.talk("New"))               # Signal Status
     
     def actionOpen(self):
         self.stackedWidget.setCurrentWidget(self.page_open)
-    
-    def actionSave(self):
-        # action ShortCut Ctrl + S
-        ...
+        _formats = eFunc.fileFormat()
+        file_name = QFileDialog.getOpenFileName(filter=_formats)
+        if file_name != ('', ''):
+            self.SIGNAL_STATUS.emit(eFunc.talk("Open", "True"))  # Signal Status
+            self.PATH.emit(eFunc.talk(*file_name))
+        else:
+            self.SIGNAL_STATUS.emit(eFunc.talk("Open", "False")) # Signal Status
     
     def actionSaveAs(self):
         # action ShortCut Ctrl + Shift + S
         self.stackedWidget.setCurrentWidget(self.page_save_as)
+        _formats = eFunc.fileFormat()
+        file_name = QFileDialog.getSaveFileName(filter=_formats)
+        if file_name != ('', ''):
+            self.SIGNAL_STATUS.emit(eFunc.talk("SaveAs", "True"))   # Signal Status
+            self.PATH.emit(eFunc.talk(*file_name))
+        else:
+            self.SIGNAL_STATUS.emit(eFunc.talk("SaveAs", "False"))  # Signal Status
     
     def actionSetting(self):
         # action ShortCut None
         self.stackedWidget.setCurrentWidget(self.page_setting)
+        self.SIGNAL_STATUS.emit(eFunc.talk("Setting"))             # Signal Status
 
     def actionEditor(self):
         # action ShortCut Ctrl + E
         self.stackedWidget.setCurrentWidget(self.page_editor)
+        self.SIGNAL_STATUS.emit(eFunc.talk("Editor"))              # Signal Status
+    
+    def actionSave(self):
+        # action ShortCut Ctrl + S
+        self.SIGNAL_STATUS.emit(eFunc.talk("Save"))                # Signal Status
+
+    def actionCopy(self):
+        # action ShortCut Ctrl + C
+        tmp = self.textEdit.copy()
+        self.SIGNAL_STATUS.emit(eFunc.talk("Copy", f"{tmp}"))      # Signal Status
+    
+    def actionCut(self):
+        # action ShortCut Ctrl + X
+        tmp = self.textEdit.cut()
+        self.SIGNAL_STATUS.emit(eFunc.talk("Cut", f"{tmp}"))      # Signal Status
+
+    def actionUndo(self):
+        # action ShortCut Ctrl + Z
+        tmp = self.textEdit.undo()
+        self.SIGNAL_STATUS.emit(eFunc.talk("Undo", f"{tmp}"))      # Signal Status
+    
+    def actionRedo(self):
+        # action ShortCut Ctrl + Shift + Z
+        tmp = self.textEdit.redo()
+        self.SIGNAL_STATUS.emit(eFunc.talk("Redo", f"{tmp}"))      # Signal Status
+
+    def actionFind(self, t: str = "Tooraj", CaseSensitively: bool = False):
+        # action ShortCut Ctrl + F
+        if CaseSensitively:
+            tmp = self.textEdit.find(t, QTextDocument.FindCaseSensitively)
+            self.SIGNAL_STATUS.emit(eFunc.talk("Find", f"{tmp}", f"{CaseSensitively}"))      # Signal Status
+        else:
+            tmp = self.textEdit.find(t)
+            self.SIGNAL_STATUS.emit(eFunc.talk("Find", f"{tmp}", f"{CaseSensitively}"))      # Signal Status
 
 
 if __name__ == "__main__":

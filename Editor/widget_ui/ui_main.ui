@@ -176,6 +176,189 @@ rgb(89, 89, 89)
             </property>
            </widget>
           </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="Line" name="line">
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_save">
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+	color: rgb(255, 255, 255);
+	background-color: rgb(35, 35, 35);
+	border: 1px solid;
+	border-color: rgb(35, 35, 35);
+}
+QPushButton:hover {
+	background-color: rgb(89, 89, 89);
+}</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="files.qrc">
+              <normaloff>:/16x16/icons/16x16/cil-save.png</normaloff>:/16x16/icons/16x16/cil-save.png</iconset>
+            </property>
+            <property name="shortcut">
+             <string>Ctrl+S</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_copy">
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+	color: rgb(255, 255, 255);
+	background-color: rgb(35, 35, 35);
+	border: 1px solid;
+	border-color: rgb(35, 35, 35);
+}
+QPushButton:hover {
+	background-color: rgb(89, 89, 89);
+}</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="files.qrc">
+              <normaloff>:/20x20/icons/20x20/cil-copy.png</normaloff>:/20x20/icons/20x20/cil-copy.png</iconset>
+            </property>
+            <property name="shortcut">
+             <string>Ctrl+C</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_cut">
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+	color: rgb(255, 255, 255);
+	background-color: rgb(35, 35, 35);
+	border: 1px solid;
+	border-color: rgb(35, 35, 35);
+}
+QPushButton:hover {
+	background-color: rgb(89, 89, 89);
+}</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="files.qrc">
+              <normaloff>:/16x16/icons/16x16/cil-cut.png</normaloff>:/16x16/icons/16x16/cil-cut.png</iconset>
+            </property>
+            <property name="shortcut">
+             <string>Ctrl+X</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_undo">
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+	color: rgb(255, 255, 255);
+	background-color: rgb(35, 35, 35);
+	border: 1px solid;
+	border-color: rgb(35, 35, 35);
+}
+QPushButton:hover {
+	background-color: rgb(89, 89, 89);
+}</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="files.qrc">
+              <normaloff>:/16x16/icons/16x16/cil-action-undo.png</normaloff>:/16x16/icons/16x16/cil-action-undo.png</iconset>
+            </property>
+            <property name="shortcut">
+             <string>Ctrl+Z</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_redo">
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+	color: rgb(255, 255, 255);
+	background-color: rgb(35, 35, 35);
+	border: 1px solid;
+	border-color: rgb(35, 35, 35);
+}
+QPushButton:hover {
+	background-color: rgb(89, 89, 89);
+}</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="files.qrc">
+              <normaloff>:/16x16/icons/16x16/cil-action-redo.png</normaloff>:/16x16/icons/16x16/cil-action-redo.png</iconset>
+            </property>
+            <property name="shortcut">
+             <string>Ctrl+Shift+Z</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_find">
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+	color: rgb(255, 255, 255);
+	background-color: rgb(35, 35, 35);
+	border: 1px solid;
+	border-color: rgb(35, 35, 35);
+}
+QPushButton:hover {
+	background-color: rgb(89, 89, 89);
+}</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="files.qrc">
+              <normaloff>:/16x16/icons/16x16/cil-find-in-page.png</normaloff>:/16x16/icons/16x16/cil-find-in-page.png</iconset>
+            </property>
+            <property name="shortcut">
+             <string>Ctrl+F</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line_2">
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -274,6 +457,12 @@ rgb(89, 89, 89)
                  <height>40</height>
                 </size>
                </property>
+               <property name="font">
+                <font>
+                 <bold>true</bold>
+                 <underline>false</underline>
+                </font>
+               </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton {
 	color: rgb(255, 255, 255);
@@ -310,6 +499,12 @@ QPushButton:hover {
                  <height>40</height>
                 </size>
                </property>
+               <property name="font">
+                <font>
+                 <bold>true</bold>
+                 <underline>false</underline>
+                </font>
+               </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton {
 	color: rgb(255, 255, 255);
@@ -345,6 +540,12 @@ QPushButton:hover {
                  <width>0</width>
                  <height>40</height>
                 </size>
+               </property>
+               <property name="font">
+                <font>
+                 <bold>true</bold>
+                 <underline>false</underline>
+                </font>
                </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton {
@@ -401,6 +602,12 @@ QPushButton:hover {
               <height>40</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <bold>true</bold>
+              <underline>false</underline>
+             </font>
+            </property>
             <property name="styleSheet">
              <string notr="true">QPushButton {
 	color: rgb(255, 255, 255);
@@ -449,6 +656,12 @@ QPushButton:hover {
               <width>0</width>
               <height>40</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <bold>true</bold>
+              <underline>false</underline>
+             </font>
             </property>
             <property name="styleSheet">
              <string notr="true">QPushButton {
@@ -623,6 +836,9 @@ background-color: rgb(35, 35, 35);</string>
                 <property name="frameShadow">
                  <enum>QFrame::Plain</enum>
                 </property>
+                <property name="lineWrapColumnOrWidth">
+                 <number>0</number>
+                </property>
                 <property name="tabStopDistance">
                  <double>12.000000000000000</double>
                 </property>
@@ -644,6 +860,15 @@ background-color: rgb(35, 35, 35);</string>
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>Btn_Toggle</tabstop>
+  <tabstop>btn_new</tabstop>
+  <tabstop>btn_open</tabstop>
+  <tabstop>btn_save_as</tabstop>
+  <tabstop>btn_editor</tabstop>
+  <tabstop>btn_setting</tabstop>
+  <tabstop>textEdit</tabstop>
+ </tabstops>
  <resources>
   <include location="files.qrc"/>
  </resources>
