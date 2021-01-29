@@ -156,12 +156,12 @@ class MainWindow(Baseclass, UI_MainWindow):
     def actionSetting(self):
         # action ShortCut None
         self.stackedWidget.setCurrentWidget(self.page_setting)
-        self.SIGNAL_STATUS.emit(eFunc.talk("Setting"))             # Signal Status
+        self.SIGNAL_STATUS.emit(eFunc.talk("Setting", "Focus"))             # Signal Status
 
     def actionEditor(self):
         # action ShortCut Ctrl + E
         self.stackedWidget.setCurrentWidget(self.page_editor)
-        self.SIGNAL_STATUS.emit(eFunc.talk("Editor"))              # Signal Status
+        self.SIGNAL_STATUS.emit(eFunc.talk("Editor", "Focus"))              # Signal Status
     
     def actionSave(self):
         # action ShortCut Ctrl + S
