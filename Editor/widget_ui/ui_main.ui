@@ -190,6 +190,28 @@ rgb(89, 89, 89)
            </spacer>
           </item>
           <item>
+           <widget class="QLabel" name="lbl_namePage">
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(107, 228, 255)</string>
+            </property>
+            <property name="text">
+             <string>Editor</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::NoTextInteraction</set>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="Line" name="line">
             <property name="frameShadow">
              <enum>QFrame::Plain</enum>
@@ -584,12 +606,12 @@ QPushButton:hover {
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
+             <enum>QSizePolicy::Minimum</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>20</width>
-              <height>40</height>
+              <width>15</width>
+              <height>22</height>
              </size>
             </property>
            </spacer>
