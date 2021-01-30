@@ -154,14 +154,17 @@ class MainWindow(Baseclass, UI_MainWindow):
     
     def actionSave(self):
         # action ShortCut Ctrl + S
-        if self.WORKING_FILE is None:
-            self.actionSaveAs()
-        else:
+        if self.WORKING_FILE is not None:
             with open(self.WORKING_FILE, 'wb') as fs:
                 txt = self.textEdit.toPlainText().encode('utf-8')
                 counter = fs.write(txt)
             fs.close
             self.SIGNAL_STATUS.emit(eFunc.talk("Save", f"{counter}", f"{self.WORKING_FILE}"))    # Signal Status
+        
+        elif self.WORKING_FILE is None and self.textEdit.toPlainText() != "":
+             self.actionSaveAs()
+        else:
+            self.SIGNAL_STATUS.emit(eFunc.talk("Save", "None", f"{self.WORKING_FILE}"))    # Signal Status
 
     def actionCopy(self):
         # action ShortCut Ctrl + C
