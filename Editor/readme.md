@@ -1,8 +1,8 @@
 # Giome Editor Readme
-## Giome
+## Giome Editor
  - Sample and little editor
  - In Develop
- - Free & Open Source __GNULicense__
+ - Free & Open Source __GPL-3.0__
 #
 ## Code
  | Base On PySide & Python
@@ -15,15 +15,14 @@
  - GUI SOURCE by: ___'WANDERSON M.PIMENTA'___ Made With QtDesigner and PySide
  - GUI SOURCE __v : 1.0.0__
  - GUI PySide __v : 2__
- - GUI Licence : __GNULicense__
  #
  #### UI Editor
  - GUI Giome: Develop With Designer and PySide
  - GUI __v : 0.9__
  - GUI PySide __v : 6__
- - GUI Licence : __GNULicense__
+ - GUI Licence : __GPL-3.0__
 #
 
 ##### __Author__ = "Tooraj_Jahangiri"
 ##### __email__ = "toorajjahangiri@gmail.com"
-##### license = GNU
+###### license Project Giome Editor =  __GPL-3.0 License__
