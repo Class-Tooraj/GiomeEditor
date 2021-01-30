@@ -39,27 +39,14 @@ class MainWindow(Baseclass, UI_MainWindow):
         self.btn_redo.clicked.connect(self.actionRedo)
         self.btn_find.clicked.connect(self.actionFind)
 
-        ## TOGGLE/BURGUER MENU
+        ## Boutton Connect
         ########################################################################
-        self.Btn_Toggle.clicked.connect(lambda: self.toggleMenu(250, True))
-
-        ## PAGES
-        ########################################################################
-
-        # PAGE NEW
-        self.btn_new.clicked.connect(self.actionNew)
-
-        # PAGE OPEN
-        self.btn_open.clicked.connect(self.actionOpen)
-
-        # PAGE SAVE AS
-        self.btn_save_as.clicked.connect(self.actionSaveAs)
-
-        # PAGE EDITOR
-        self.btn_editor.clicked.connect(self.actionEditor)
-
-        # PAGE SETTING
-        self.btn_setting.clicked.connect(self.actionSetting)
+        self.Btn_Toggle.clicked.connect(lambda: self.toggleMenu(250, True))   # TOGGLE/BURGUER MENU
+        self.btn_new.clicked.connect(self.actionNew)                          # Boutton NEW
+        self.btn_open.clicked.connect(self.actionOpen)                        # Boutton OPEN
+        self.btn_save_as.clicked.connect(self.actionSaveAs)                   # Boutton SAVE AS
+        self.btn_editor.clicked.connect(self.actionEditor)                    # Boutton EDITOR
+        self.btn_setting.clicked.connect(self.actionSetting)                  # Boutton SETTING
 
         # SIGNAL CONNECT
         self.SIGNAL_PATH.connect(lambda x: print(x, file=sys.stdout))
