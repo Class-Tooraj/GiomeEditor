@@ -12,8 +12,11 @@ import os
 
 from PySide6 import QtCore
 from PySide6.QtGui import QTextDocument
-from PySide6.QtWidgets import QApplication, QFileDialog
+from PySide6.QtWidgets import QApplication, QFileDialog, QWidget, QHBoxLayout
 from PySide6.QtUiTools import loadUiType
+
+# IMPORT WIDGETS
+from findmain import FindWidget
 
 # IMPORT FUNCTION
 import eFunc
@@ -26,6 +29,7 @@ class MainWindow(Baseclass, UI_MainWindow):
     SIGNAL_PATH = QtCore.Signal(tuple)        # (FilePath, FileFormat)
     SIGNAL_STATUS = QtCore.Signal(tuple)      # (ActionName, *other)
     WORKING_FILE = None
+    _RUNTIME = {'FindW': False}
 
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
@@ -186,8 +190,17 @@ class MainWindow(Baseclass, UI_MainWindow):
         tmp = self.textEdit.redo()
         self.SIGNAL_STATUS.emit(eFunc.talk("Redo", f"{tmp}"))      # Signal Status
 
+    # issue 1:<find>: search widget connect to mainWindow and use 'style'
     def actionFind(self, t: str = "Tooraj", CaseSensitively: bool = False):
         # action ShortCut Ctrl + F
+        finder = FindWidget()
+        winWidget = QWidget()
+        layout = QHBoxLayout()
+        layout.addWidget(finder)
+        winWidget.setLayout(layout)
+        winWidget.isWindow()
+        winWidget.show()
+        self.addWidget(winWidget)
         if CaseSensitively:
             tmp = self.textEdit.find(t, QTextDocument.FindCaseSensitively)
             self.SIGNAL_STATUS.emit(eFunc.talk("Find", f"{tmp}", f"{CaseSensitively}"))      # Signal Status
