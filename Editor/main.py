@@ -190,7 +190,8 @@ class MainWindow(Baseclass, UI_MainWindow):
         tmp = self.textEdit.redo()
         self.SIGNAL_STATUS.emit(eFunc.talk("Redo", f"{tmp}"))      # Signal Status
 
-    # issue 1:<find>: search widget connect to mainWindow and use 'style'
+    # issue 1:<find>: search widget connect to mainWindow and use 'style', add new ui widget locate for external widget
+          # 1:------: wait for change ui .
     def actionFind(self, t: str = "Tooraj", CaseSensitively: bool = False):
         # action ShortCut Ctrl + F
         finder = FindWidget()

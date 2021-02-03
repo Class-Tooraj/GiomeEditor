@@ -18,7 +18,7 @@
  #
  #### UI Editor
  - GUI Giome: Develop With Designer and PySide
- - GUI __v : 0.9__
+ - GUI __v : 1.0__
  - GUI PySide __v : 6__
  - GUI Licence : __GPL-3.0__
 #
