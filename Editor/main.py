@@ -15,6 +15,8 @@ from PySide6.QtGui import QTextDocument
 from PySide6.QtWidgets import QApplication, QFileDialog, QWidget, QHBoxLayout
 from PySide6.QtUiTools import loadUiType
 
+from typing import Callable
+
 # IMPORT WIDGETS
 from findmain import FindWidget
 
@@ -30,9 +32,15 @@ class MainWindow(Baseclass, UI_MainWindow):
     SIGNAL_STATUS = QtCore.Signal(tuple)      # (ActionName, *other)
     WORKING_FILE = None
     _RUNTIME = {'FindW': False}
+    SigExeMap = {'PATH': [], 'STATUS': []}
 
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
+        ## UPDATE SIGNAL BACKEND BASE MAP
+        ########################################################################
+        self.SigExeMap['PATH'].append(self.fileNameChange)
+        self.SigExeMap['STATUS'].append(lambda *x: f"[STATUS]{x}")
+
         self.setupUi(self)
         ## ACTIONS BTN CONNECT
         ########################################################################
@@ -53,8 +61,8 @@ class MainWindow(Baseclass, UI_MainWindow):
         self.btn_setting.clicked.connect(self.actionSetting)                  # Boutton SETTING
 
         # SIGNAL CONNECT
-        self.SIGNAL_PATH.connect(lambda x: print(x, file=sys.stdout))
-        self.SIGNAL_STATUS.connect(lambda x: print(x, file=sys.stdout))
+        self.SIGNAL_PATH.connect(lambda x : self.baseSignalHandler('PATH', x))
+        self.SIGNAL_STATUS.connect(lambda x : self.baseSignalHandler('STATUS', x))
 
         ## SHOW ==> MAIN WINDOW >> Show in Start app ui
         ########################################################################
@@ -99,6 +107,33 @@ class MainWindow(Baseclass, UI_MainWindow):
             self.animation.setEndValue(widthExtended)
             self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
             self.animation.start()
+
+    def addActionBaseSignal(self, sigName: str, *act: Callable):
+        try:
+            self.SigExeMap[sigName].append(act)
+        except KeyError as err:
+            print(f"[ADD-ACTION-BASE-SIGNAL][{sigName}][{act}]|[ERROR][{err}]", file=sys.stderr, flush=True)
+            self.SigExeMap[sigName] = [*act]
+            print(f"[ADD-ACTION-BASE-SIGNAL][{sigName}][{act}][ADD-NEW-SIGNAME]", file=sys.stdout, flush=True)
+
+
+    def baseSignalHandler(self, signalName: str, data: tuple):
+        sps = f"[SIGNAL-NAME][{signalName}]:[DATA][{data}]"     # signal pattern show
+        print(sps, file=sys.stdout, flush=True)
+        try:
+            FunMp = self.SigExeMap[signalName]
+            for fun in FunMp:
+                res = fun(data)
+                print(f"{sps}[ACTION][{fun.__name__}]|[HNDLR-RESULT][{res}]", file=sys.stdout, flush=True)
+        except KeyError as err:
+            print(f"{sps}|[ERROR][{err}]", file=sys.stderr, flush=True)
+
+    def fileNameChange(self, name: tuple = None):
+        default = "NewFile"
+        if name is None:
+            self.lbl_fileName.setText(f"File :  {default}")
+        else:
+            self.lbl_fileName.setText(f"File :  {name[0]}")
 
     def actionNew(self):
         # action ShortCut Ctrl + N
