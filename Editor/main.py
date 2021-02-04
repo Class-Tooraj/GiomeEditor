@@ -13,6 +13,7 @@ import os
 from PySide6 import QtCore
 from PySide6.QtGui import QTextDocument
 from PySide6.QtWidgets import QApplication, QFileDialog, QWidget, QHBoxLayout
+from PySide6.QtPrintSupport import QPrintPreviewDialog, QPrintDialog
 from PySide6.QtUiTools import loadUiType
 
 from typing import Callable
@@ -50,6 +51,9 @@ class MainWindow(Baseclass, UI_MainWindow):
         self.btn_undo.clicked.connect(self.actionUndo)
         self.btn_redo.clicked.connect(self.actionRedo)
         self.btn_find.clicked.connect(self.actionFind)
+        self.btn_zoomIn.clicked.connect(self.actionZoomIN)
+        self.btn_zoomOut.clicked.connect(self.actionZoomOUT)
+        self.btn_print.clicked.connect(self.actionPrint)
 
         ## Boutton Connect
         ########################################################################
@@ -224,6 +228,23 @@ class MainWindow(Baseclass, UI_MainWindow):
         # action ShortCut Ctrl + Shift + Z
         tmp = self.textEdit.redo()
         self.SIGNAL_STATUS.emit(eFunc.talk("Redo", f"{tmp}"))      # Signal Status
+    
+    def actionZoomIN(self):
+        # action ShortCut Ctrl + +
+        tmp = self.textEdit.zoomIn()
+        self.SIGNAL_STATUS.emit(eFunc.talk("Zoom_IN", f"{tmp}"))      # Signal Status
+
+    def actionZoomOUT(self):
+        # action ShortCut Ctrl + -
+        tmp = self.textEdit.zoomOut()
+        self.SIGNAL_STATUS.emit(eFunc.talk("Zoom_OUT", f"{tmp}"))      # Signal Status
+    
+    def actionPrint(self):
+        # action ShortCut Ctrl + P
+        preview = QPrintPreviewDialog()
+        preview.paintRequested.connect(self.textEdit.print_)
+        preview.exec_()
+        self.SIGNAL_STATUS.emit(eFunc.talk("Print_Preview", f"{preview}")) # Signal Status
 
     # issue 1:<find>: search widget connect to mainWindow and use 'style', add new ui widget locate for external widget
           # 1:------: wait for change ui .

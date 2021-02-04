@@ -280,6 +280,56 @@ rgb(89, 89, 89)
           <item>
            <layout class="QHBoxLayout" name="lyt_shortCut">
             <item>
+             <widget class="QPushButton" name="btn_undo">
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+	color: rgb(255, 255, 255);
+	background-color: rgb(35, 35, 35);
+	border: 1px solid;
+	border-color: rgb(35, 35, 35);
+}
+QPushButton:hover {
+	background-color: rgb(89, 89, 89);
+}</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="files.qrc">
+                <normaloff>:/16x16/icons/16x16/cil-action-undo.png</normaloff>:/16x16/icons/16x16/cil-action-undo.png</iconset>
+              </property>
+              <property name="shortcut">
+               <string>Ctrl+Z</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_redo">
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+	color: rgb(255, 255, 255);
+	background-color: rgb(35, 35, 35);
+	border: 1px solid;
+	border-color: rgb(35, 35, 35);
+}
+QPushButton:hover {
+	background-color: rgb(89, 89, 89);
+}</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="files.qrc">
+                <normaloff>:/16x16/icons/16x16/cil-action-redo.png</normaloff>:/16x16/icons/16x16/cil-action-redo.png</iconset>
+              </property>
+              <property name="shortcut">
+               <string>Ctrl+Shift+Z</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="btn_print">
               <property name="styleSheet">
                <string notr="true">QPushButton {
@@ -376,56 +426,6 @@ QPushButton:hover {
               </property>
               <property name="shortcut">
                <string>Ctrl+X</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="btn_undo">
-              <property name="styleSheet">
-               <string notr="true">QPushButton {
-	color: rgb(255, 255, 255);
-	background-color: rgb(35, 35, 35);
-	border: 1px solid;
-	border-color: rgb(35, 35, 35);
-}
-QPushButton:hover {
-	background-color: rgb(89, 89, 89);
-}</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset resource="files.qrc">
-                <normaloff>:/16x16/icons/16x16/cil-action-undo.png</normaloff>:/16x16/icons/16x16/cil-action-undo.png</iconset>
-              </property>
-              <property name="shortcut">
-               <string>Ctrl+Z</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="btn_redo">
-              <property name="styleSheet">
-               <string notr="true">QPushButton {
-	color: rgb(255, 255, 255);
-	background-color: rgb(35, 35, 35);
-	border: 1px solid;
-	border-color: rgb(35, 35, 35);
-}
-QPushButton:hover {
-	background-color: rgb(89, 89, 89);
-}</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset resource="files.qrc">
-                <normaloff>:/16x16/icons/16x16/cil-action-redo.png</normaloff>:/16x16/icons/16x16/cil-action-redo.png</iconset>
-              </property>
-              <property name="shortcut">
-               <string>Ctrl+Shift+Z</string>
               </property>
              </widget>
             </item>
