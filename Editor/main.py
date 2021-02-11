@@ -13,7 +13,7 @@ import os
 from PySide6 import QtCore
 from PySide6.QtGui import QTextDocument
 from PySide6.QtWidgets import QApplication, QFileDialog, QWidget, QHBoxLayout
-from PySide6.QtPrintSupport import QPrintPreviewDialog, QPrintDialog
+from PySide6.QtPrintSupport import QPrintPreviewDialog
 from PySide6.QtUiTools import loadUiType
 
 from typing import Callable
@@ -245,7 +245,11 @@ class MainWindow(Baseclass, UI_MainWindow):
         preview.paintRequested.connect(self.textEdit.print_)
         preview.exec_()
         self.SIGNAL_STATUS.emit(eFunc.talk("Print_Preview", f"{preview}")) # Signal Status
-
+    def rightWidget(self, widget: Callable):
+        ...
+    
+    def bottomWidget(self, widget: Callable):
+        ...
     # issue 1:<find>: search widget connect to mainWindow and use 'style', add new ui widget locate for external widget
           # 1:------: wait for change ui .
     def actionFind(self, t: str = "Tooraj", CaseSensitively: bool = False):
