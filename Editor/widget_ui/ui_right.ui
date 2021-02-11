@@ -165,7 +165,14 @@
     </layout>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="lyt_center"/>
+    <layout class="QVBoxLayout" name="lyt_center">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="sizeConstraint">
+      <enum>QLayout::SetMaximumSize</enum>
+     </property>
+    </layout>
    </item>
   </layout>
  </widget>

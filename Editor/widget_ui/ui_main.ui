@@ -965,10 +965,10 @@ QPushButton:hover {
                   <item>
                    <layout class="QVBoxLayout" name="lyt_eRight">
                     <property name="spacing">
-                     <number>2</number>
+                     <number>0</number>
                     </property>
                     <property name="sizeConstraint">
-                     <enum>QLayout::SetMaximumSize</enum>
+                     <enum>QLayout::SetMinimumSize</enum>
                     </property>
                    </layout>
                   </item>
@@ -977,7 +977,7 @@ QPushButton:hover {
                 <item>
                  <layout class="QHBoxLayout" name="lyt_eBottom">
                   <property name="spacing">
-                   <number>2</number>
+                   <number>0</number>
                   </property>
                   <property name="sizeConstraint">
                    <enum>QLayout::SetMaximumSize</enum>

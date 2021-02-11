@@ -20,6 +20,7 @@ from typing import Callable
 
 # IMPORT WIDGETS
 from findmain import FindWidget
+from rightProtocol import RightWidget
 
 # IMPORT FUNCTION
 import eFunc
@@ -245,23 +246,21 @@ class MainWindow(Baseclass, UI_MainWindow):
         preview.paintRequested.connect(self.textEdit.print_)
         preview.exec_()
         self.SIGNAL_STATUS.emit(eFunc.talk("Print_Preview", f"{preview}")) # Signal Status
-    def rightWidget(self, widget: Callable):
-        ...
+    
+    def rightWidget(self, name:str ,widget: Callable):
+        RW = RightWidget()
+        RW.uWidget(name, widget)
+        self.lyt_eRight.addWidget(RW)
+        RW.show()
+        RW.STATUS.connect(lambda x: self.SIGNAL_STATUS.emit(eFunc.talk(*x)))
     
     def bottomWidget(self, widget: Callable):
         ...
-    # issue 1:<find>: search widget connect to mainWindow and use 'style', add new ui widget locate for external widget
-          # 1:------: wait for change ui .
+    
+    # issue: Find Widget Ui need to be fix
     def actionFind(self, t: str = "Tooraj", CaseSensitively: bool = False):
         # action ShortCut Ctrl + F
-        finder = FindWidget()
-        winWidget = QWidget()
-        layout = QHBoxLayout()
-        layout.addWidget(finder)
-        winWidget.setLayout(layout)
-        winWidget.isWindow()
-        winWidget.show()
-        self.addWidget(winWidget)
+        self.rightWidget("Search", FindWidget)
         if CaseSensitively:
             tmp = self.textEdit.find(t, QTextDocument.FindCaseSensitively)
             self.SIGNAL_STATUS.emit(eFunc.talk("Find", f"{tmp}", f"{CaseSensitively}"))      # Signal Status

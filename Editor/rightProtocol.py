@@ -5,6 +5,7 @@ __email__ = "toorajjahangiri@gmail.com"
 from PySide6.QtCore import Signal
 from PySide6.QtUiTools import loadUiType
 from os import path as ipath
+from typing import Callable
 
 import time
 
@@ -48,7 +49,8 @@ class RightWidget(Baseclass, UI_RightWidget):
             print(data)
             pass
     
-    def widgets(self, name: str, widget):
+    def widgets(self, name: str, widget: Callable, wight: int, hight: int):
+        self.resize(wight, hight)
         self.lbl_name.setText(name)
         self.WIDGET = widget()
         self.lyt_center.addWidget(self.WIDGET)
@@ -56,8 +58,8 @@ class RightWidget(Baseclass, UI_RightWidget):
         self.STATUS.emit(talk("Start",self.startTime, name, self.WID, True))
         self.wName = name
     
-    def uWidget(self, name: str, widget_cls):
-        self.STATUS.emit(talk("Set", name, widget_cls))
+    def uWidget(self, name: str, widget_cls: Callable, size: tuple = (250, 70)):
+        self.STATUS.emit(talk("Set", name, widget_cls, *size))
     
     def wExit(self):
         self.STATUS.emit(talk("Exit", time.monotonic(), self.wName, self.WID, False))
@@ -69,7 +71,7 @@ class RightWidget(Baseclass, UI_RightWidget):
 
 
 # test In develop Now 
-'''
+"""
 if __name__ == "__main__":
     from PySide6.QtWidgets import QApplication
     from findmain import FindWidget
@@ -80,5 +82,4 @@ if __name__ == "__main__":
     win.uWidget('Search',FindWidget)
     win.show()
     sys.exit(app.exec_())
-
-'''
+"""
