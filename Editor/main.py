@@ -12,7 +12,7 @@ import os
 
 from PySide6 import QtCore
 from PySide6.QtGui import QTextDocument
-from PySide6.QtWidgets import QApplication, QFileDialog, QWidget, QHBoxLayout
+from PySide6.QtWidgets import QApplication, QFileDialog
 from PySide6.QtPrintSupport import QPrintPreviewDialog
 from PySide6.QtUiTools import loadUiType
 
@@ -67,6 +67,9 @@ class MainWindow(Baseclass, UI_MainWindow):
         self.btn_save_as.clicked.connect(self.actionSaveAs)                   # Boutton SAVE AS
         self.btn_editor.clicked.connect(self.actionEditor)                    # Boutton EDITOR
         self.btn_setting.clicked.connect(self.actionSetting)                  # Boutton SETTING
+
+        # RIGHT & BOTTOM WIDGET AREA PROTOCOL
+        self.__RightSpacerAdd = True if len(self.ActiveWidget['Right']) < 1 else False
 
         # SIGNAL CONNECT
         self.SIGNAL_PATH.connect(lambda x : self.baseSignalHandler('PATH', x))
@@ -251,12 +254,15 @@ class MainWindow(Baseclass, UI_MainWindow):
         self.SIGNAL_STATUS.emit(eFunc.talk("Print_Preview", f"{preview}")) # Signal Status
     
     # issue: Fix Position , Fix Signal , Fix bug
-    def rightWidget(self, name:str ,widget: Callable):   
+    def rightWidget(self, name:str ,widget: Callable, size:tuple = (300, 80)):
         RW = RightWidget()
-        RW.uWidget(name, widget)
+        RW.uWidget(name, widget, size)
         self.ActiveWidget['Right'][name] = True
         self.lyt_eRight.addWidget(RW)
         RW.STATUS.connect(lambda x: self.RW_STATUS.emit(eFunc.talk(*x)))
+        if self.__RightSpacerAdd and len(self.ActiveWidget['Right'].values()) is 1:
+            self.lyt_eRight.addSpacing(1 * 1080)
+            self.__RightSpacerAdd = False
     
     def bottomWidget(self, widget: Callable):
         ...
