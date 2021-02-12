@@ -37,12 +37,12 @@ class RightWidget(Baseclass, UI_RightWidget):
             self.widgets(*data[1:])
         
         elif data[0] == '<START>':
-            print(*data[1:])
+            print(f"[WIDGET_ACTIVE]",*data[1:])
         
         elif data[0] == '<EXIT>':
             tEx = data[1]
             toTime = tEx - self.startTime
-            print(f"<Time>[{toTime}]", *data[2:])
+            #print(f"<Time>[{toTime}]", *data[2:])
             self.WIDGET.exitSignal()
         
         else:
@@ -58,6 +58,7 @@ class RightWidget(Baseclass, UI_RightWidget):
         self.STATUS.emit(talk('<START>',self.startTime, name, self.WID, True))
         self.WIDGET.startSignal()
         self.wName = name
+        self.WIDGET.STATUS.connect(lambda *x: self.STATUS.emit(talk(*x)))
     
     def uWidget(self, name: str, widget_cls: Callable, size: tuple = (250, 70)):
         self.STATUS.emit(talk("<SET>", name, widget_cls, *size))

@@ -38,6 +38,7 @@ class MainWindow(Baseclass, UI_MainWindow):
     _RUNTIME = {'FindW': False}
     SigExeMap = {'PATH': [], 'STATUS': []}
     ActiveWidget = {'Right': {}, 'Bottom': {}}
+    SigWidgetMap = {'Right': {}, 'Bottom': {}}
 
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
@@ -254,12 +255,13 @@ class MainWindow(Baseclass, UI_MainWindow):
         self.SIGNAL_STATUS.emit(eFunc.talk("Print_Preview", f"{preview}")) # Signal Status
     
     # issue: Fix Position , Fix Signal , Fix bug
-    def rightWidget(self, name:str ,widget: Callable, size:tuple = (300, 80)):
+    def rightWidget(self, name:str ,widget: Callable, sigHandler: Callable, size:tuple = (300, 80)):
         RW = RightWidget()
         RW.uWidget(name, widget, size)
         self.ActiveWidget['Right'][name] = True
+        self.SigWidgetMap['Right'][name] = sigHandler
         self.lyt_eRight.addWidget(RW)
-        RW.STATUS.connect(lambda x: self.RW_STATUS.emit(eFunc.talk(*x)))
+        RW.STATUS.connect(self.SigWidgetMap['Right'][name])
         if self.__RightSpacerAdd and len(self.ActiveWidget['Right'].values()) is 1:
             self.lyt_eRight.addSpacing(1 * 1080)
             self.__RightSpacerAdd = False
@@ -270,13 +272,27 @@ class MainWindow(Baseclass, UI_MainWindow):
     # issue: Find Widget Ui need to be fix
     def actionFind(self, t: str = "Tooraj", CaseSensitively: bool = False):
         # action ShortCut Ctrl + F
-        wFind = self.rightWidget("Search", FindWidget)
-        if CaseSensitively:
-            tmp = self.textEdit.find(t, QTextDocument.FindCaseSensitively)
-            self.SIGNAL_STATUS.emit(eFunc.talk("Find", f"{tmp}", f"{CaseSensitively}"))      # Signal Status
+        print(f"//{t= }{CaseSensitively= }//")
+        if not self.ActiveWidget['Right'].get('Search', False):
+            self.rightWidget("Search", FindWidget, self.sigFindHandlr)
         else:
-            tmp = self.textEdit.find(t)
-            self.SIGNAL_STATUS.emit(eFunc.talk("Find", f"{tmp}", f"{CaseSensitively}"))      # Signal Status
+            if CaseSensitively:
+                tmp = self.textEdit.find(t, QTextDocument.FindCaseSensitively)
+                self.SIGNAL_STATUS.emit(eFunc.talk("Find", f"{tmp}", f"{CaseSensitively}"))      # Signal Status
+            else:
+                tmp = self.textEdit.find(t)
+                self.SIGNAL_STATUS.emit(eFunc.talk("Find", f"{tmp}", f"{CaseSensitively}"))      # Signal Status
+
+    def sigFindHandlr(self, *sig):
+        mtr = str.maketrans("(),\'\"", "     ")
+        _translate = f"{sig}".translate(mtr)
+        _sig = _translate.split()
+        if _sig[0] == '<SEARCH>':
+            if _sig[-1] == 'True':
+                self.actionFind(_sig[1], True)
+            else:
+                self.actionFind(_sig[1], False)
+        del sig, mtr, _translate, _sig
 
 
 if __name__ == "__main__":
