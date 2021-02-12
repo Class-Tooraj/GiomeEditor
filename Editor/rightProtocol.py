@@ -33,17 +33,17 @@ class RightWidget(Baseclass, UI_RightWidget):
         self.WID: str = None
     
     def __handler(self, data: tuple):
-        if data[0] == 'Set':
+        if data[0] == '<SET>':
             self.widgets(*data[1:])
         
-        elif data[0] == "Start":
+        elif data[0] == '<START>':
             print(*data[1:])
         
-        elif data[0] == 'Exit':
+        elif data[0] == '<EXIT>':
             tEx = data[1]
             toTime = tEx - self.startTime
-            print(f"Time[{toTime}]", *data[2:])
-            exit(self)
+            print(f"<Time>[{toTime}]", *data[2:])
+            self.WIDGET.exitSignal()
         
         else:
             print(data)
@@ -55,14 +55,15 @@ class RightWidget(Baseclass, UI_RightWidget):
         self.WIDGET = widget()
         self.lyt_center.addWidget(self.WIDGET)
         self.WID = hshTrans(f"{hash(self.WIDGET)}")
-        self.STATUS.emit(talk("Start",self.startTime, name, self.WID, True))
+        self.STATUS.emit(talk('<START>',self.startTime, name, self.WID, True))
+        self.WIDGET.startSignal()
         self.wName = name
     
     def uWidget(self, name: str, widget_cls: Callable, size: tuple = (250, 70)):
-        self.STATUS.emit(talk("Set", name, widget_cls, *size))
+        self.STATUS.emit(talk("<SET>", name, widget_cls, *size))
     
     def wExit(self):
-        self.STATUS.emit(talk("Exit", time.monotonic(), self.wName, self.WID, False))
+        self.STATUS.emit(talk("<EXIT>", time.monotonic(), self.wName, self.WID, False))
     
     # issue: wTool method action active
     def wTool(self, *arg):

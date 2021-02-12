@@ -4,7 +4,6 @@ __email__ = "toorajjahangiri@gmail.com"
 from os import path as ipath
 
 from PySide6.QtCore import Signal, Slot
-from PySide6.QtWidgets import QApplication
 from PySide6.QtUiTools import loadUiType
 
 # IMPORT UI FILE
@@ -15,8 +14,7 @@ print(f"{__file_name= }\n\t/{UI_MainWindow= }/\n\t/{Baseclass= }/")
 
 class FindWidget(Baseclass, UI_MainWindow):
 
-    SIG_SEARCHE = Signal(tuple)     # ("text", bool)
-    SIG_STATUS = Signal(tuple)      # ("msg", bool)
+    STATUS = Signal(tuple)      # ("msg", bool)
 
     def __init__(self, *args, **kwargs):
         super(FindWidget, self).__init__(*args, **kwargs)
@@ -25,33 +23,33 @@ class FindWidget(Baseclass, UI_MainWindow):
         # Action Button Connect
         self.btn_find.clicked.connect(self.actFind)
         # Signal Connect
-        self.SIG_SEARCHE.connect(lambda x: print(x))
-        self.SIG_STATUS.connect(self.sigStatusHandle)
+        self.STATUS.connect(self.sigStatusHandle)
 
     def actFind(self):
         getTxt = self.lineEdit.text()
         self.msgStatus("")
-        if self.rbtn_case.isChecked():
-            self.SIG_SEARCHE.emit(self.sendSignal(getTxt, True))
-        else:
-            self.SIG_SEARCHE.emit(self.sendSignal(getTxt, False))
+        if getTxt != "":
+            if self.rbtn_case.isChecked():
+                self.STATUS.emit(self.sendSignal("<SEARCH>", getTxt, True))
+            else:
+                self.STATUS.emit(self.sendSignal("<SEARCH>", getTxt, False))
 
     def sigStatusHandle(self, sig: tuple):
-        com, var = sig
-        ignore = ('<START>', '<EXIT>')
+        com, *var = sig
+        ignore = ('<START>', '<EXIT>', '<SEARCH>')
         if com not in ignore:
             if com == 'msg':
                 self.msgStatus(var)
             elif com == 'cls':
                 self.clearStatus()
             elif com == '/ST':
-                self.SIG_STATUS.emit(self.sendSignal('<START>', True))
+                self.STATUS.emit(self.sendSignal('<START>', True))
             elif com == '/EX':
-                self.SIG_STATUS.emit(self.sendSignal('<EXIT>', False))
+                self.STATUS.emit(self.sendSignal('<EXIT>', False))
             else:
                 self.lineEdit.setText("")
         else:
-            print(f"[STATUS_FIND]\t<{com}>  /[{var}]/")
+            print(f"[STATUS_FIND] {com} {var}")
 
     def msgStatus(self, msg: str):
         self.lbl_status.setText(msg)
@@ -71,20 +69,22 @@ class FindWidget(Baseclass, UI_MainWindow):
     
     def startSignal(self):
         self.sigStatusHandle(('/ST', True))
+        self.show()
         return 1
 
-
-####Test RUN Widget
-
-#if __name__ == "__main__":
-#    import sys
-#    try:
-#        app = QApplication(sys.argv)
-#        win = FindWidget()
-#        win.show()
-#        win.startSignal()
-#        sys.exit(app.exec_())
-#    except BaseException as e:
-#        raise e
-#    finally:
-#        exit(win.exitSignal())
+# test
+"""
+if __name__ == "__main__":
+    from PySide6.QtWidgets import QApplication
+    import sys
+    try:
+        app = QApplication(sys.argv)
+        win = FindWidget()
+        #win.show()
+        win.startSignal()
+        sys.exit(app.exec_())
+    except BaseException as e:
+        raise e
+    finally:
+        exit(win.exitSignal())
+"""

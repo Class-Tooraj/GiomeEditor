@@ -32,9 +32,12 @@ print(f"{UI_MainWindow= }\n{Baseclass= }")
 class MainWindow(Baseclass, UI_MainWindow):
     SIGNAL_PATH = QtCore.Signal(tuple)        # (FilePath, FileFormat)
     SIGNAL_STATUS = QtCore.Signal(tuple)      # (ActionName, *other)
+    RW_STATUS = QtCore.Signal(tuple)          # Right Widget Status Signal
+    BT_STATUS = QtCore.Signal(tuple)          # Bottom Widget Status Signal
     WORKING_FILE = None
     _RUNTIME = {'FindW': False}
     SigExeMap = {'PATH': [], 'STATUS': []}
+    ActiveWidget = {'Right': {}, 'Bottom': {}}
 
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
@@ -247,20 +250,21 @@ class MainWindow(Baseclass, UI_MainWindow):
         preview.exec_()
         self.SIGNAL_STATUS.emit(eFunc.talk("Print_Preview", f"{preview}")) # Signal Status
     
-    def rightWidget(self, name:str ,widget: Callable):
+    # issue: Fix Position , Fix Signal , Fix bug
+    def rightWidget(self, name:str ,widget: Callable):   
         RW = RightWidget()
         RW.uWidget(name, widget)
+        self.ActiveWidget['Right'][name] = True
         self.lyt_eRight.addWidget(RW)
-        RW.show()
-        RW.STATUS.connect(lambda x: self.SIGNAL_STATUS.emit(eFunc.talk(*x)))
+        RW.STATUS.connect(lambda x: self.RW_STATUS.emit(eFunc.talk(*x)))
     
     def bottomWidget(self, widget: Callable):
         ...
-    
+
     # issue: Find Widget Ui need to be fix
     def actionFind(self, t: str = "Tooraj", CaseSensitively: bool = False):
         # action ShortCut Ctrl + F
-        self.rightWidget("Search", FindWidget)
+        wFind = self.rightWidget("Search", FindWidget)
         if CaseSensitively:
             tmp = self.textEdit.find(t, QTextDocument.FindCaseSensitively)
             self.SIGNAL_STATUS.emit(eFunc.talk("Find", f"{tmp}", f"{CaseSensitively}"))      # Signal Status
