@@ -12,7 +12,7 @@
 ## UI-Details:
     | UI Editor
         - GUI Giome: Develop With Designer and PySide
-        - GUI v : 1.1
+        - GUI v : 1.2
         - GUI PySide v : 6
         - GUI Licence : GPL-3.0
  
