@@ -70,6 +70,8 @@ class MainWindow(Baseclass, UI_MainWindow):
         self.btn_setting.clicked.connect(self.actionSetting)                  # Boutton SETTING
 
         # RIGHT & BOTTOM WIDGET AREA PROTOCOL
+        self.__rWIDGET:object = None
+        self.__bWIDGET:object = None
         self.__RightSpacerAdd = True if len(self.ActiveWidget['Right']) < 1 else False
 
         # SIGNAL CONNECT
@@ -254,22 +256,30 @@ class MainWindow(Baseclass, UI_MainWindow):
         preview.exec_()
         self.SIGNAL_STATUS.emit(eFunc.talk("Print_Preview", f"{preview}")) # Signal Status
     
-    # issue: Fix Position , Fix Signal , Fix bug
+    # issue: Fix bug only [in check]
     def rightWidget(self, name:str ,widget: Callable, sigHandler: Callable, size:tuple = (300, 80)):
-        RW = RightWidget()
-        RW.uWidget(name, widget, size)
+        self.__rWIDGET = RightWidget()
+        self.__rWIDGET.uWidget(name, widget, size)
         self.ActiveWidget['Right'][name] = True
         self.SigWidgetMap['Right'][name] = sigHandler
-        self.lyt_eRight.addWidget(RW)
-        RW.STATUS.connect(self.SigWidgetMap['Right'][name])
+        self.lyt_eRight.addWidget(self.__rWIDGET)
+        self.__rWIDGET.STATUS.connect(self.SigWidgetMap['Right'][name])
+        
         if self.__RightSpacerAdd and len(self.ActiveWidget['Right'].values()) is 1:
             self.lyt_eRight.addSpacing(1 * 1080)
             self.__RightSpacerAdd = False
     
-    def bottomWidget(self, widget: Callable):
-        ...
+    # issue: test and fix any issue , bug
+    def bottomWidget(self, name:str ,widget: Callable, sigHandler: Callable, size:tuple = (600, 300)):
+        self.__bWIDGET = RightWidget()
+        self.__bWIDGET.setMaximumWidth(16777215)
+        self.__bWIDGET.setMaximumHeight(800)
+        self.__bWIDGET.uWidget(name, widget, size)
+        self.ActiveWidget['Right'][name] = True
+        self.SigWidgetMap['Right'][name] = sigHandler
+        self.lyt_eBottom.addWidget(self.__rWIDGET)
+        self.__rWIDGET.STATUS.connect(self.SigWidgetMap['Right'][name])
 
-    # issue: Find Widget Ui need to be fix
     def actionFind(self, t: str = "Tooraj", CaseSensitively: bool = False):
         # action ShortCut Ctrl + F
         print(f"//{t= }{CaseSensitively= }//")
@@ -282,6 +292,29 @@ class MainWindow(Baseclass, UI_MainWindow):
             else:
                 tmp = self.textEdit.find(t)
                 self.SIGNAL_STATUS.emit(eFunc.talk("Find", f"{tmp}", f"{CaseSensitively}"))      # Signal Status
+    
+    # issue : need fix call after remove widget
+    def __rightLytClear(self):
+        for i in reversed(range(self.lyt_eRight.count())):
+                widgetToRemove = self.lyt_eRight.itemAt(i).widget()
+                # remove it from the layout list
+                self.lyt_eRight.removeWidget(widgetToRemove)
+                # remove it from the gui
+                widgetToRemove.setParent(None)
+        self.ActiveWidget['Right'].clear()
+        self.SigWidgetMap['Right'].clear()
+        self.__RightSpacerAdd = True
+    
+    # issue : need fix call after remove widget, and fix bug
+    def __bottomLytClear(self):
+        for i in reversed(range(self.lyt_eBottom.count())):
+                widgetToRemove = self.lyt_eBottom.itemAt(i).widget()
+                # remove it from the layout list
+                self.lyt_eBottom.removeWidget(widgetToRemove)
+                # remove it from the gui
+                widgetToRemove.setParent(None)
+        self.ActiveWidget['Bottom'].clear()
+        self.SigWidgetMap['Bottom'].clear()
 
     def sigFindHandlr(self, *sig):
         mtr = str.maketrans("(),\'\"", "     ")
@@ -292,6 +325,13 @@ class MainWindow(Baseclass, UI_MainWindow):
                 self.actionFind(_sig[1], True)
             else:
                 self.actionFind(_sig[1], False)
+        
+        elif _sig[0] == '<EXIT>':
+            try:
+                self.__rightLytClear()
+            except AttributeError as err:
+                self.SIGNAL_STATUS.emit(eFunc.talk(f"<ATTRIBUTE_ERR> [{_sig}] [{err}]"))
+        
         del sig, mtr, _translate, _sig
 
 
