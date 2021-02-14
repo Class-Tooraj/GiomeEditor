@@ -21,6 +21,7 @@ from typing import Callable
 # IMPORT WIDGETS
 from findmain import FindWidget
 from rightProtocol import RightWidget
+from txtWidget import QCodeEditor
 
 # IMPORT FUNCTION
 import eFunc
@@ -48,6 +49,8 @@ class MainWindow(Baseclass, UI_MainWindow):
         self.SigExeMap['STATUS'].append(lambda *x: f"[STATUS]{x}")
 
         self.setupUi(self)
+        self.textEdit = QCodeEditor()
+        self.lyt_eCenter.addWidget(self.textEdit)
         ## ACTIONS BTN CONNECT
         ########################################################################
         self.btn_save.clicked.connect(self.actionSave)

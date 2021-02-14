@@ -914,53 +914,11 @@ QPushButton:hover {
                    </widget>
                   </item>
                   <item>
-                   <widget class="QTextEdit" name="textEdit">
-                    <property name="font">
-                     <font>
-                      <family>Courier New</family>
-                      <pointsize>12</pointsize>
-                     </font>
+                   <layout class="QHBoxLayout" name="lyt_eCenter">
+                    <property name="sizeConstraint">
+                     <enum>QLayout::SetMaximumSize</enum>
                     </property>
-                    <property name="focusPolicy">
-                     <enum>Qt::StrongFocus</enum>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">QTextEdit{
-	
-	background-color: rgb(44, 44, 44);
-	selection-background-color: rgb(85, 85, 85);
-	selection-color: rgb(184, 255, 244);
-	color: rgb(255, 255, 255);
-}</string>
-                    </property>
-                    <property name="inputMethodHints">
-                     <set>Qt::ImhMultiLine</set>
-                    </property>
-                    <property name="frameShape">
-                     <enum>QFrame::NoFrame</enum>
-                    </property>
-                    <property name="frameShadow">
-                     <enum>QFrame::Plain</enum>
-                    </property>
-                    <property name="lineWidth">
-                     <number>1</number>
-                    </property>
-                    <property name="midLineWidth">
-                     <number>0</number>
-                    </property>
-                    <property name="sizeAdjustPolicy">
-                     <enum>QAbstractScrollArea::AdjustIgnored</enum>
-                    </property>
-                    <property name="lineWrapColumnOrWidth">
-                     <number>1</number>
-                    </property>
-                    <property name="tabStopDistance">
-                     <double>12.000000000000000</double>
-                    </property>
-                    <property name="textInteractionFlags">
-                     <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextEditable|Qt::TextEditorInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-                    </property>
-                   </widget>
+                   </layout>
                   </item>
                   <item>
                    <layout class="QVBoxLayout" name="lyt_eRight">
