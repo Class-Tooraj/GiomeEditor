@@ -65,6 +65,7 @@ class RightWidget(Baseclass, UI_RightWidget):
     
     def wExit(self):
         self.STATUS.emit(talk("<EXIT>", time.monotonic(), self.wName, self.WID, False))
+        return 0
     
     # issue: wTool method action active
     def wTool(self, *arg):
